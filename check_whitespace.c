@@ -6,7 +6,7 @@
  * Strips spaces from both the front and back of a string,
  * leaving any internal spaces alone.
  */
-char const *strip(char const *str) {
+char* strip(char const *str) {
   int size = strlen(str);
 
   // This counts the number of leading and trailing spaces
@@ -28,7 +28,8 @@ char const *strip(char const *str) {
   // consisted of nothing but spaces, so we'll return the
   // empty string.
   if (num_spaces >= size) {
-    return "";
+    char* empty_result = (char*) calloc(1, sizeof(char));
+    return empty_result;
   }
 
   // Allocate a slot for all the "saved" characters
@@ -53,13 +54,15 @@ char const *strip(char const *str) {
 int is_clean(char const *str) {
   // We check if it's clean by calling strip and seeing if the
   // result is the same as the original string.
-  char const *cleaned = strip(str);
+  char* cleaned = strip(str);
 
   // strcmp compares two strings, returning a negative value if
   // the first is less than the second (in alphabetical order),
   // 0 if they're equal, and a positive value if the first is
   // greater than the second.
   int result = strcmp(str, cleaned);
+
+  free(cleaned); // Free the allocated memory
 
   return result == 0;
 }

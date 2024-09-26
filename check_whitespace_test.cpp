@@ -2,24 +2,31 @@
 
 #include "check_whitespace.h"
 
+// Helper function to assert strip results and free memory
+void assert_strip(const char* input, const char* expected) {
+    char* result = strip(input);
+    ASSERT_STREQ(expected, result);
+    free(result);
+}
+
 TEST(strip, EmptyString) {
-    ASSERT_STREQ("", strip(""));
+    assert_strip("", "");
 }
 
 TEST(strip, NoWhitespace) {
-    ASSERT_STREQ("frog", strip("frog"));
+    assert_strip("frog", "frog");
 }
 
 TEST(strip, WhitespaceOnFront) {
-    ASSERT_STREQ("frog", strip("   frog"));
+    assert_strip("   frog", "frog");
 }
 
 TEST(strip, WhitespaceOnBack) {
-    ASSERT_STREQ("frog", strip("frog  "));
+    assert_strip("frog  ", "frog");
 }
 
 TEST(strip, WhitespaceOnBothEnds) {
-    ASSERT_STREQ("frog", strip("  frog     "));
+    assert_strip("  frog     ", "frog");
 }
 
 TEST(is_clean, EmptyString) {
